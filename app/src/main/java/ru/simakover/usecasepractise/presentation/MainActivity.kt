@@ -1,6 +1,7 @@
 package ru.simakover.usecasepractise.presentation
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -18,21 +19,27 @@ class MainActivity : AppCompatActivity() {
         val dataTextView = findViewById<TextView>(R.id.dataTextView)
         val firstNameEditView = findViewById<TextView>(R.id.firstNameEditText)
         val lastNameEditView = findViewById<TextView>(R.id.lastNameEditText)
-        val sendButton = findViewById<TextView>(R.id.sendButton)
-        val receiveButton = findViewById<TextView>(R.id.receiveButton)
+        val sendButton = findViewById<Button>(R.id.sendButton)
+        val receiveButton = findViewById<Button>(R.id.receiveButton)
+        val backToOldButton = findViewById<Button>(R.id.backToOldButton)
 
-        vm.userLiveData.observe(this, Observer {
-            dataTextView.text = "first name = ${it.firstName} last name = ${it.lastName}"
+        vm.stateLiveData.observe(this, Observer {state ->
+            dataTextView.text = "first name = ${state.firstName} last name = ${state.lastName}"
         })
 
         sendButton.setOnClickListener {
             val firstName = firstNameEditView.text.toString()
             val lastName = lastNameEditView.text.toString()
-            vm.saveUser(firstName, lastName)
+            vm.send(SaveUserEvent(firstName, lastName))
         }
 
         receiveButton.setOnClickListener {
-            vm.loadUser()
+            vm.send(LoadUserEvent())
         }
+
+        backToOldButton.setOnClickListener {
+            vm.send(BackToOldUserEvent())
+        }
+
     }
 }

@@ -12,16 +12,62 @@ class MainViewModel(
     private val saveUserUseCase: SaveUserUseCase,
 ) : ViewModel() {
 
-    private val _userLiveData = MutableLiveData<User>()
-    val userLiveData: LiveData<User> = _userLiveData
+    // выход
+    private val _stateLiveData = MutableLiveData<MainState>()
+    val stateLiveData: LiveData<MainState> = _stateLiveData
 
+    private val _oldStateLiveData =  MutableLiveData<MainState>()
 
-    fun saveUser(firstName: String, lastName: String) {
+    // вход
+    fun send(event: MainEvent) {
+        when (event) {
+            is SaveUserEvent -> {
+                saveUser(event.firstName, event.lastName)
+            }
+
+            is LoadUserEvent -> {
+                loadUser()
+            }
+
+            is BackToOldUserEvent -> {
+                backToOldState()
+            }
+        }
+
+    }
+
+    init {
+        _stateLiveData.value = MainState(
+            firstName = "",
+            lastName = ""
+        )
+        _oldStateLiveData.value = _stateLiveData.value
+    }
+
+    private fun saveUser(firstName: String, lastName: String) {
         val user = User(firstName, lastName)
         saveUserUseCase.execute(user)
     }
 
-    fun loadUser() {
-        _userLiveData.value = getUserUseCase.execute()
+    private fun loadUser() {
+        val user = getUserUseCase.execute()
+//        _stateLiveData.value = MainState(
+//            firstName = user.firstName,
+//            lastName = user.lastName
+//        )
+        val newState = MainState(
+            firstName = user.firstName,
+            lastName = user.lastName
+        )
+        reloadState(newState)
+    }
+
+    private fun reloadState(state: MainState) {
+        _oldStateLiveData.value = _stateLiveData.value
+        _stateLiveData.value = state
+    }
+
+    private fun backToOldState() {
+        _stateLiveData.value = _oldStateLiveData.value
     }
 }
