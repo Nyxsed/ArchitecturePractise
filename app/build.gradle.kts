@@ -47,9 +47,14 @@ dependencies {
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
-//    implementation(libs.koin.test)
-//    testImplementation(libs.koin.test.junit4)
-//    testImplementation(libs.koin.android.test)
+
+    //junit and mock
+    implementation(libs.kotlin.stdlib)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.mockito.core.v400)
+    testImplementation(libs.mockito.kotlin.v400)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.androidx.core.testing)
 
     implementation(project(":data"))
     implementation(project(":domain"))
