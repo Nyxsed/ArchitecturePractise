@@ -11,8 +11,8 @@ class SaveUserUseCase(
 
         val oldUser = userRepository.getUser()
 
-        if (oldUser !== user) {
-            val result = userRepository.saveUser(user)
+        if (oldUser != user) {
+            userRepository.saveUser(user)
         }
     }
 }
