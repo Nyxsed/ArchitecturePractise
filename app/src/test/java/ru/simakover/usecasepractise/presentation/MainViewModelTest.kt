@@ -50,7 +50,7 @@ class MainViewModelTest {
         val actual = viewModel.stateLiveData.value
         val expected = MainState (
             firstName = "new first name",
-            lastName = "new first name"
+            lastName = "new last name"
         )
         Assertions.assertEquals(expected, actual)
         Mockito.verify(saveUserUseCase, Mockito.times(1)).execute(user = newUser)
@@ -73,7 +73,7 @@ class MainViewModelTest {
         val actual = viewModel.stateLiveData.value
         val expected = MainState (
             firstName = "old first name",
-            lastName = "old first name"
+            lastName = "old last name"
         )
         Assertions.assertEquals(expected, actual)
         Mockito.verify(saveUserUseCase, Mockito.times(1)).execute(user = newUser)
