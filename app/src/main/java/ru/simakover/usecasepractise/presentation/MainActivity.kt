@@ -2,14 +2,14 @@ package ru.simakover.usecasepractise.presentation
 
 import android.os.Bundle
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.simakover.usecasepractise.R
 
 class MainActivity : AppCompatActivity() {
 
-    private val vm: MainViewModel by viewModels { MainViewModelFactory(applicationContext) }
+    private val vm by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
